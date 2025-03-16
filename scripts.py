@@ -1,9 +1,10 @@
 #Функция по исправлению оценок у определенного ребенка
 def fix_marks(scoolkid):
-  marks = Mark.objects.filter(schoolkid__full_name__icontains=schoolkid, points_range=["2","3"])
-  for mark_fix in marks:
-    mark_fix.points = "5"
-    mark_fix.save()
+	schoolkid = Schoolkid.objects.filter(full_name__contains=schoolkid)
+	marks = Mark.objects.filter(schoolkid__full_name__icontains=schoolkid, points_range=["2","3"])
+	for mark_fix in marks:
+		mark_fix.points = "5"
+		mark_fix.save()
 
 #Функция по создания комментария с похвалой от определенного учителя, предмета ребенку
 def create_commendation(schoolkid, subject, teacher):
