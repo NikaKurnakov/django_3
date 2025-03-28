@@ -11,4 +11,21 @@ def create_commendation(schoolkid, subject, teacher):
 	schoolkid = Schoolkid.objects.filter(full_name__contains=schoolkid)                                                                   
 	subject = Subject.objects.filter(title__contains=subject)                                                                            
 	teacher = Teacher.objects.filter(full_name__contains=teacher)                                                                                    
-	return Commendation.objects.create(text="Хвалю!", created="2018-10-01", schoolkid=schoolkid[0], teacher=teacher[0], subject=subject[0])
+	last_lesson = Lesson.objects.filter(
+            subject=subject,
+            teacher=teacher,
+            year_of_study=schoolkid.year_of_study,
+            group_letter=schoolkid.group_letter
+        ).order_by('-date').first()
+        
+        if not last_lesson:
+            raise Lesson.DoesNotExist("Не найден подходящий урок")
+		
+        commendation = Commendation.objects.create(
+            text="Хвалю!",
+            created=last_lesson.date,
+            schoolkid=schoolkid,
+            teacher=teacher,
+            subject=subject
+        )
+        return commendation
