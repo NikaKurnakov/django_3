@@ -28,7 +28,7 @@ def create_commendation(schoolkid_name, subject, teacher):
         )
         return commendation
 	
-#Функция по удалению плохих отметок
+#Функция по удалению замечаний
 def delete_chastisement(schoolkid_name):
         schoolkid = get_object_or_404(Schoolkid, full_name__contains=schoolkid_name)
         chastisement = Chastisement.objects.filter(schoolkid=schoolkid)
